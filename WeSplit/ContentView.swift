@@ -41,7 +41,7 @@ struct ContentView: View {
                     .pickerStyle(SegmentedPickerStyle())
                 }
                 
-                Section {
+                Section(header: Text("Amount per person").textCase(nil)) {
                     Text("$\(tipPercentage, specifier: "%.2f")")
                 }
             }
