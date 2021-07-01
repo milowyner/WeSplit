@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var checkAmount = ""
-    @State private var numberOfPeople = 0
+    @State private var numberOfPeople = ""
     @State private var tipPercentage = 2
     
     let tipPercentages = [10, 15, 20, 25, 0]
@@ -22,7 +22,8 @@ struct ContentView: View {
     }
     
     var totalPerPerson: Double {
-        return total / Double((numberOfPeople + 2))
+        guard let people = Int(numberOfPeople) else { return 0 }
+        return total / Double(people)
     }
     
     var body: some View {
@@ -30,11 +31,7 @@ struct ContentView: View {
             Form {
                 TextField("Amount", text: $checkAmount)
                     .keyboardType(.decimalPad)
-                Picker("Number of people", selection: $numberOfPeople) {
-                    ForEach(2..<100) {
-                        Text("\($0)")
-                    }
-                }
+                TextField("Number of people", text: $numberOfPeople)
                 
                 Section(header: Text("How much tip do you want to leave?").textCase(nil)) {
                     Picker("Tip percentage", selection: $tipPercentage) {
