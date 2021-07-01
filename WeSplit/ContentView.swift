@@ -14,11 +14,15 @@ struct ContentView: View {
     
     let tipPercentages = [10, 15, 20, 25, 0]
     
-    var totalPerPerson: Double {
+    var total: Double {
         guard let check = Double(checkAmount) else { return 0 }
         let tip = check * Double(tipPercentages[tipPercentage]) / 100
         
-        return (check + tip) / Double((numberOfPeople + 2))
+        return check + tip
+    }
+    
+    var totalPerPerson: Double {
+        return total / Double((numberOfPeople + 2))
     }
     
     var body: some View {
@@ -41,8 +45,12 @@ struct ContentView: View {
                     .pickerStyle(SegmentedPickerStyle())
                 }
                 
+                Section(header: Text("Total").textCase(nil)) {
+                    Text("$\(total, specifier: "%.2f")")
+                }
+                
                 Section(header: Text("Amount per person").textCase(nil)) {
-                    Text("$\(tipPercentage, specifier: "%.2f")")
+                    Text("$\(totalPerPerson, specifier: "%.2f")")
                 }
             }
             .navigationTitle("WeSplit")
